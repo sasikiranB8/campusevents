@@ -526,7 +526,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 <div align="center">
 
-**Built with 🔥 by [Renukesh DurgaPrasad](https://github.com/Renukeshpragada),[Sasi kiran]([https://github.com/Hemanth2131](https://github.com/sasikiranB8))**
+**Built with 🔥 by [Renukesh DurgaPrasad](https://github.com/Renukeshpragada),[Sasi kiran](https://github.com/sasikiranB8))**
 
 </div>
 
