@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Hackathon Lister</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html">CampusEvents</a></div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <!-- These are hidden/shown by js/main.js -->
+                <li><a href="dashboard.html" id="nav-dashboard-link" style="display: none;">Dashboard</a></li>
+                <li><a href="organize.html" id="nav-organize-link" style="display: none;">Organize</a></li>
+            </ul>
+            <div class="user-actions">
+                 <span id="user-greeting"></span>
+                 <!-- This is hidden/shown by js/main.js -->
+                <button id="logout-button" style="display: none;">Logout</button>
+                 <!-- Add Login/Signup buttons if needed when logged OUT -->
+                 <!-- <a href="login.html" id="nav-login-link" class="btn btn-outline">Login</a> -->
+            </div>
+        </nav>
+    </header>
+
+    <main class="container dashboard-container">
+        <h1>My Dashboard</h1>
+
+        <div id="user-info" class="user-info-card">
+            <h2>Profile Details</h2>
+            <p><strong>Username:</strong> <span id="dash-username">Loading...</span></p>
+            <p><strong>Email:</strong> <span id="dash-email">Loading...</span></p>
+
+            <!-- Placeholders for data not yet available -->
+            <p><strong>College:</strong> <span id="dash-college">N/A (Add to Profile)</span></p>
+            <p><strong>Year:</strong> <span id="dash-year">N/A (Add to Profile)</span></p>
+            <!-- End Placeholders -->
+
+            <div class="dashboard-actions">
+                 <!-- Link to a future edit page -->
+                 <a href="edit-profile.html" class="btn btn-secondary">Edit Profile</a>
+            </div>
+        </div>
+
+        <div id="user-registrations">
+            <h2>My Event Registrations</h2>
+            <div class="dashboard-placeholder">
+                 (Feature coming soon - requires backend integration)
+            </div>
+            <!-- Registration list will be loaded here -->
+        </div>
+
+        <div id="user-certificates">
+            <h2>My Certificates</h2>
+            <div class="dashboard-placeholder">
+                 (Feature coming soon - requires backend integration)
+            </div>
+            <!-- Certificate list/links will be loaded here -->
+        </div>
+
+    </main>
+
+     <footer>
+        <p>© 2023 Hackathon Lister</p>
+    </footer>
+    <!-- Existing dashboard HTML ... -->
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // --- Dashboard Specific JS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // ... (existing code to get elements and fetch profile) ...
+
+            // --- Toggle and Fetch Logic for Registrations ---
+            // ... (existing toggle button listener) ...
+
+            // --- Toggle and Fetch Logic for Certificates ---
+            // ... (existing toggle button listener) ...
+        });
+
+        // --- *** REPLACE Placeholder Fetch Functions *** ---
+
+        async function fetchAndDisplayRegistrations(contentElement) {
+            contentElement.innerHTML = '<p>Fetching your registrations...</p>';
+            try {
+                // *** Use ACTUAL Backend Endpoint ***
+                 const registrations = await fetchAPI('/users/me/registrations'); // Changed endpoint
+
+                if (registrations && registrations.length > 0) {
+                    contentElement.innerHTML = ''; // Clear loading
+                    registrations.forEach(reg => {
+                        const regDiv = document.createElement('div');
+                        regDiv.className = 'dashboard-item';
+                        // *** Adjust HTML based on what backend returns ***
+                        // Example: Assuming backend includes event details within registration object
+                        const eventTitle = reg.event?.title || 'Deleted/Unknown Event';
+                        const eventDate = reg.event?.date ? new Date(reg.event.date).toLocaleDateString() : 'N/A';
+                        const eventId = reg.event?._id || reg.eventId; // Use _id if populated, otherwise fallback
+
+                        regDiv.innerHTML = `
+                             <span>
+                                 <strong>${eventTitle}</strong> - Event Date: ${eventDate}
+                                 <small>(Registered: ${new Date(reg.createdAt).toLocaleDateString()})</small> <!-- Assuming reg has createdAt -->
+                             </span>
+                             ${eventId ? `<a href="event-details.html?id=${eventId}" class="btn btn-xs btn-link">View Event</a>` : ''}
+                         `;
+                        contentElement.appendChild(regDiv);
+                    });
+                } else {
+                     contentElement.innerHTML = '<p>You have not registered for any events yet.</p>';
+                }
+            } catch (error) {
+                 console.error("Failed to fetch registrations:", error);
+                contentElement.innerHTML = `<p class="error">Could not load registrations: ${error.message}</p>`;
+            }
+        }
+
+        async function fetchAndDisplayCertificates(contentElement) {
+             contentElement.innerHTML = '<p>Fetching your certificates...</p>';
+             try {
+                 // *** Use ACTUAL Backend Endpoint ***
+                 const certificates = await fetchAPI('/users/me/certificates'); // Changed endpoint
+
+                 if (certificates && certificates.length > 0) {
+                     contentElement.innerHTML = '';
+                     certificates.forEach(cert => {
+                         const certDiv = document.createElement('div');
+                         certDiv.className = 'dashboard-item';
+                         // *** Adjust HTML based on backend response ***
+                         const eventTitle = cert.event?.title || 'Associated Event N/A';
+                         certDiv.innerHTML = `
+                            <span>
+                                Certificate for: <strong>${eventTitle}</strong>
+                                <small>(Issued: ${new Date(cert.issuedAt).toLocaleDateString()})</small> <!-- Assuming cert has issuedAt -->
+                            </span>
+                            ${cert.downloadUrl ? `<a href="${cert.downloadUrl}" class="btn btn-xs btn-success" target="_blank" rel="noopener noreferrer" download="certificate-${eventTitle}.pdf">Download</a>` : '(Download link unavailable)'}
+                         `;
+                         contentElement.appendChild(certDiv);
+                     });
+                 } else {
+                    contentElement.innerHTML = '<p>No certificates found.</p>';
+                 }
+             } catch (error) {
+                 console.error("Failed to fetch certificates:", error);
+                 contentElement.innerHTML = `<p class="error">Could not load certificates: ${error.message}</p>`;
+             }
+        }
+
+    </script>
+</body>
+</html>

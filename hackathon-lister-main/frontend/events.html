@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Events - CampusEvents</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- *** ADD Swiper.js CSS *** -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        /* Additional styles for the two-column layout */
+        .events-layout {
+            display: flex;
+            gap: 30px; /* Space between list and details */
+        }
+        #event-list-container {
+            flex: 0 0 400px; /* Fixed width for the list */
+            max-height: 75vh; /* Limit height and allow scrolling */
+            overflow-y: auto;
+            padding-right: 15px; /* Space before scrollbar */
+        }
+        #event-detail-panel {
+            flex: 1; /* Takes remaining space */
+            background-color: #f8f9fa; /* Light background for details */
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            min-height: 500px; /* Ensure it has some height */
+        }
+        #event-detail-panel.placeholder {
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             color: #aaa;
+             font-style: italic;
+        }
+        /* Style for individual list items */
+        .event-list-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            display: flex; /* Use flexbox for image/text alignment */
+            gap: 15px;
+            height:165px;
+        }
+
+        .event-list-item:hover {
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .event-list-item.selected {
+            background-color: #e9ecef;
+            border-left: 4px solid #4a00e0;
+            padding-left: 11px;
+        }
+        .event-list-item img {
+            width: 80px; /* Smaller image */
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            flex-shrink: 0; /* Prevent image shrinking */
+        }
+        .event-list-item-content h4 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .event-list-item-content p {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+         /* Detail Panel Image Style */
+         #event-detail-panel img.detail-event-image {
+            width: 100%;
+            max-height: 250px; /* Adjust as needed */
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+         }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html">CampusEvents</a></div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <!-- These are hidden/shown by js/main.js -->
+                <li><a href="dashboard.html" id="nav-dashboard-link" style="display: none;">Dashboard</a></li>
+                <li><a href="organize.html" id="nav-organize-link" style="display: none;">Organize</a></li>
+            </ul>
+            <div class="user-actions">
+                 <span id="user-greeting"></span>
+                 <!-- This is hidden/shown by js/main.js -->
+                <button id="logout-button" style="display: none;">Logout</button>
+                 <!-- Add Login/Signup buttons if needed when logged OUT -->
+                 <!-- <a href="login.html" id="nav-login-link" class="btn btn-outline">Login</a> -->
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="container events-page-container">
+        <h1 class="page-title">Explore Events</h1>
+
+        <!-- Recent Events Carousel Section -->
+        <section class="recent-events-section">
+            <h2>Recently Added</h2>
+             <!-- *** ADD Swiper.js Structure *** -->
+            <div class="swiper recent-events-swiper">
+                <div class="swiper-wrapper" id="recent-events-carousel">
+                    <!-- Slides will be injected here -->
+                    <p>Loading recent events...</p>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Navigation -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+             <!-- *** END Swiper.js Structure *** -->
+        </section>
+
+        <!-- Main Events Section -->
+        <section id="events-section" class="events-dashboard">
+             <h2 class="section-title">All Events</h2>
+             <!-- *** MODIFIED Filters *** -->
+             <div class="filters">
+                 <input type="search" id="search-bar" placeholder="Search events...">
+                 <select id="filter-mode">
+                     <option value="">All Modes</option>
+                     <option value="Online">Online</option>
+                     <option value="Offline">Offline</option>
+                 </select>
+                 <select id="filter-fee"> <!-- NEW Fee Filter -->
+                     <option value="">All Fees</option>
+                     <option value="false">Free</option> <!-- value="false" corresponds to paid=false -->
+                     <option value="true">Paid</option>  <!-- value="true" corresponds to paid=true -->
+                 </select>
+                 <select id="filter-category">
+                     <option value="">All Categories</option>
+                     <option value="Technical">Technical</option>
+                     <option value="Non-Technical">Non-Technical</option>
+                 </select>
+                 <!-- Type filter removed -->
+                 <button id="filter-button">Apply Filters</button>
+             </div>
+             <!-- *** END MODIFIED Filters *** -->
+
+             <!-- *** NEW Two-Column Layout *** -->
+             <div class="events-layout">
+                 <!-- Left Column: Event List -->
+                 <div id="event-list-container">
+                     <p>Loading events list...</p>
+                     <!-- Event list items will be loaded here -->
+                 </div>
+                 <!-- Right Column: Detail Panel -->
+                 <div id="event-detail-panel" class="placeholder">
+                     <p>Select an event from the list to view details.</p>
+                 </div>
+             </div>
+             <!-- *** END Two-Column Layout *** -->
+
+        </section>
+    </main>
+
+    <!-- Consistent Footer -->
+    <!-- Footer remains the same -->
+    <footer style="background-color: #343a40; color: #adb5bd; padding: 3rem 1rem; text-align: left;">
+        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+            <div>
+                <h4>CampusEvents</h4>
+                <p style="font-size: 0.9em; line-height: 1.5;">Discover and participate in exciting college events from across the country. Showcase your talents and win amazing prizes!</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.9em;">
+                    <li style="margin-bottom: 0.5rem;"><a href="index.html" style="color: #adb5bd; text-decoration: none;">Home</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="events.html" style="color: #adb5bd; text-decoration: none;">Events</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="dashboard.html" id="footer-dashboard-link" style="color: #adb5bd; text-decoration: none; display: none;">Dashboard</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Categories</h4>
+                 <ul style="list-style: none; padding: 0; font-size: 0.9em;">
+                    <li style="margin-bottom: 0.5rem;">Technical Events</li>
+                    <li style="margin-bottom: 0.5rem;">Non-Technical Events</li>
+                    <li style="margin-bottom: 0.5rem;">Online Events</li>
+                    <li style="margin-bottom: 0.5rem;">Offline Events</li>
+                </ul>
+            </div>
+             <div>
+                <h4>Contact Us</h4>
+                 <address style="font-style: normal; font-size: 0.9em;">
+                    V.R SIDDHARTHA ENGINEERING COLLEGE<br>
+                    Ph: 0866-2582333<br>
+                    info@campusevents.com
+                </address>
+            </div>
+        </div>
+         <div style="text-align: center; margin-top: 2rem; border-top: 1px solid #495057; padding-top: 1rem; font-size: 0.85em;">
+            © 2024 CampusEvents. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <!-- *** ADD Swiper.js JS *** -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="js/events.js"></script> <!-- Handles loading/display/interaction -->
+
+</body>
+</html>

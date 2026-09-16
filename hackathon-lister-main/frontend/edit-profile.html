@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - CampusEvents</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Add some specific styles if needed */
+        .edit-profile-container { max-width: 600px; margin: 3rem auto; /* Similar to organize form */ }
+        .edit-profile-container .form-group input[readonly] { background-color: #e9ecef; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <header>
+         <!-- Consistent Header -->
+         <nav>
+            <div class="logo"><a href="index.html">CampusEvents</a></div>
+            <ul>
+                 <li><a href="index.html">Home</a></li>
+                 <li><a href="events.html">Events</a></li>
+                 <li><a href="dashboard.html" id="nav-dashboard-link" style="display: none;">Dashboard</a></li>
+                 <li><a href="organize.html" id="nav-organize-link" style="display: none;">Organize</a></li>
+            </ul>
+             <div class="user-actions">
+                 <span id="user-greeting"></span>
+                 <button id="logout-button" style="display: none;">Logout</button>
+             </div>
+         </nav>
+    </header>
+
+    <main class="container organize-container edit-profile-container"> <!-- Re-use organize styles -->
+        <h1>Edit Your Profile</h1>
+
+        <form id="edit-profile-form">
+             <p id="edit-profile-loading" class="message">Loading current details...</p>
+            <!-- Display Only Fields -->
+            <div class="form-group">
+                <label for="edit-username">Username:</label>
+                <input type="text" id="edit-username" readonly> <!-- Usually usernames aren't editable -->
+            </div>
+            <div class="form-group">
+                <label for="edit-email">Email:</label>
+                <input type="email" id="edit-email" readonly> <!-- Often not editable either -->
+            </div>
+
+            <!-- Editable Fields (Add backend support later) -->
+             <div class="form-group">
+                 <label for="edit-college">College:</label>
+                 <input type="text" id="edit-college" placeholder="Your College Name">
+             </div>
+             <div class="form-group">
+                 <label for="edit-year">Year of Study:</label>
+                 <input type="number" id="edit-year" placeholder="e.g., 3 for 3rd year">
+             </div>
+
+             <!-- Add field for password change if needed later -->
+
+            <button type="submit">Save Changes</button>
+            <p id="edit-profile-message" class="message" style="display: none;"></p>
+        </form>
+    </main>
+
+     <footer>
+        <p>© 2024 CampusEvents</p>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <!-- You might create a separate profile.js or add logic here -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('edit-profile-form');
+            const usernameInput = document.getElementById('edit-username');
+            const emailInput = document.getElementById('edit-email');
+            const collegeInput = document.getElementById('edit-college');
+            const yearInput = document.getElementById('edit-year');
+            const loadingMsg = document.getElementById('edit-profile-loading');
+            const messageEl = document.getElementById('edit-profile-message');
+
+            // 1. Fetch current user data to populate the form
+            const loadUserData = async () => {
+                 loadingMsg.style.display = 'block';
+                 messageEl.style.display = 'none';
+                try {
+                    const user = await fetchAPI('/auth/me'); // Endpoint that returns user details
+                    if (user) {
+                        usernameInput.value = user.username || '';
+                        emailInput.value = user.email || '';
+                        // Populate college/year if they exist in the response
+                        collegeInput.value = user.college || '';
+                        yearInput.value = user.year || '';
+                        loadingMsg.style.display = 'none';
+                    } else {
+                         throw new Error("Could not fetch user data.");
+                    }
+                } catch (error) {
+                     console.error("Error loading profile:", error);
+                     loadingMsg.style.display = 'none';
+                     showMessage('edit-profile-message', `Error loading profile: ${error.message}. Please try again later.`, true);
+                     // Optionally disable form if loading failed severely
+                     // form.style.display = 'none';
+                }
+            };
+
+            loadUserData(); // Load data when page is ready
+
+                  // In edit-profile.html's <script> block
+
+       form.addEventListener('submit', async (e) => {
+           e.preventDefault();
+           messageEl.style.display = 'none';
+           const updatedData = {
+               college: collegeInput.value.trim(),
+               year: yearInput.value ? parseInt(yearInput.value) : null,
+           };
+           try {
+               // *** Use '/auth/me' endpoint ***
+               const result = await fetchAPI('/auth/me', {
+                   method: 'PUT',
+                   body: JSON.stringify(updatedData),
+               });
+               showMessage('edit-profile-message', 'Profile updated successfully!', false);
+                // Update display in case data returned doesn't match exactly what was sent
+                if(result) {
+                     collegeInput.value = result.college || '';
+                     yearInput.value = result.year || '';
+                }
+           } catch (error) {
+               console.error("Error updating profile:", error);
+               showMessage('edit-profile-message', `Error updating profile: ${error.message}`, true);
+           }
+       });
+        });
+    </script>
+</body>
+</html>

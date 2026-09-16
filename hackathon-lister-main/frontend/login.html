@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login-style.css">
+     <title>Login - CampusEvents</title>
+</head>
+
+<body class="auth-body">
+
+    <div class="container auth-container" id="container">
+        <div class="form-container sign-up">
+            <form id="signup-form">
+                <h1>Create Account</h1>
+                <input type="text" placeholder="Name" id="signup-username">
+                <input type="email" placeholder="Email"  id="signup-email">
+                <input type="password" placeholder="Password"  id="signup-password"  minlength="6">
+                <button>Sign Up</button>
+                  <p id="signup-message" class="message" style="display: none;"></p>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form  id="login-form">
+                <h1>Sign In</h1>
+    
+                <input type="email" placeholder="Email" id="login-email">
+                <input type="password" placeholder="Password" id="login-password">
+                <button type="submit">Sign In</button>
+                <p id="login-message" class="message" style="display: none;"></p>
+
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script src="js/login-script.js"></script>
+      <script src="js/config.js"></script>
+    <script src="js/main.js"></script>   <!-- main.js MUST be before auth.js -->
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

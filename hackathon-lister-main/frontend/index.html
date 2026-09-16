@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEvents - Discover College Events</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html">CampusEvents</a></div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="dashboard.html" id="nav-dashboard-link" style="display: none;">Dashboard</a></li>
+                <li><a href="organize.html" id="nav-organize-link" style="display: none;">Organize</a></li>
+            </ul>
+            <div class="user-actions">
+                 <span id="user-greeting"></span>
+                <button id="logout-button" style="display: none;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <img src="https://www.shutterstock.com/image-photo/group-people-silhouette-gathering-sunrise-260nw-319289168.jpg" alt="Campus Events Banner" class="hero-image">
+        <div class="hero-content">
+            <h1>Discover & Participate in Amazing College Events</h1>
+             <p>Find technical and non-technical events from colleges across the country. Showcase your talents, learn new skills, and win exciting prizes!</p>
+            <div class="hero-buttons" style="margin-top: 1.5rem;">
+                 <a href="events.html" class="btn btn-primary">Explore Events →</a>
+                 <a href="dashboard.html" class="btn btn-secondary" id="hero-dashboard-btn" style="display: none;">My Dashboard</a> <!-- Hide if not logged in -->
+            </div>
+        </div>
+    </section>
+
+    <section class="organize-cta-section container">
+         <h2>Want to Host Your Own Event?</h2>
+         <p>List your hackathon, workshop, or competition on CampusEvents and reach students across the country!</p>
+         <a href="organize.html" class="btn btn-success" id="footer-organize-btn" style="display: none;">Organize an Event</a> <!-- Hide if not logged in -->
+       
+     </section>
+
+     <footer style="background-color: #343a40; color: #adb5bd; padding: 3rem 1rem; text-align: left;">
+         <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+             <div>
+                 <h4>CampusEvents</h4>
+                 <p style="font-size: 0.9em; line-height: 1.5;">Discover and participate in exciting college events from across the country. Showcase your talents and win amazing prizes!</p>
+             </div>
+            
+             <div>
+                 <h4>Quick Links</h4>
+                 <ul style="list-style: none; padding: 0; font-size: 0.9em;">
+                     <li style="margin-bottom: 0.5rem;"><a href="index.html" style="color: #adb5bd; text-decoration: none;">Home</a></li>
+                     <li style="margin-bottom: 0.5rem;"><a href="events.html" style="color: #adb5bd; text-decoration: none;">Events</a></li>
+                     <li style="margin-bottom: 0.5rem;"><a href="dashboard.html" id="footer-dashboard-link" style="color: #adb5bd; text-decoration: none; display: none;">Dashboard</a></li>
+                 </ul>
+             </div>
+             <div>
+                 <h4>Categories</h4>
+                  <ul style="list-style: none; padding: 0; font-size: 0.9em;">
+                     <li style="margin-bottom: 0.5rem;">Technical Events</li>
+                     <li style="margin-bottom: 0.5rem;">Non-Technical Events</li>
+                     <li style="margin-bottom: 0.5rem;">Online Events</li>
+                     <li style="margin-bottom: 0.5rem;">Offline Events</li>
+                 </ul>
+             </div>
+              <div>
+                 <h4>Contact Us</h4>
+                  <address style="font-style: normal; font-size: 0.9em;">
+                     V.R SIDDHARTHA ENGINEERING COLLEGE<br>
+                     Ph: 0866-2582333<br>
+                     info@campusevents.com
+                 </address>
+             </div>
+         </div>
+          <div style="text-align: center; margin-top: 2rem; border-top: 1px solid #495057; padding-top: 1rem; font-size: 0.85em;">
+             © 2024 CampusEvents. All Rights Reserved.
+         </div>
+     </footer>
+
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script> 
+    <script src="js/auth.js"></script>
+    <script src="js/events.js"></script> 
+</body>
+</html>

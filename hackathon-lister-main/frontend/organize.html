@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organize Event - CampusEvents</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+     <header>
+        <!-- Consistent Header -->
+        <nav>
+             <div class="logo"><a href="index.html">CampusEvents</a></div>
+             <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="dashboard.html" id="nav-dashboard-link" style="display: none;">Dashboard</a></li>
+                <li><a href="organize.html" id="nav-organize-link" style="display: none;">Organize</a></li>
+            </ul>
+            <div class="user-actions">
+                 <span id="user-greeting"></span>
+                <button id="logout-button" style="display: none;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container organize-container">
+        <h1>Organize a New Hackathon Event</h1>
+        <form id="organize-form">
+            <!-- Event Title -->
+            <div class="form-group">
+                <label for="event-title">Event Title*:</label>
+                <input type="text" id="event-title" required>
+            </div>
+            <!-- Description -->
+            <div class="form-group">
+                <label for="event-description">Description*:</label>
+                <textarea id="event-description" rows="5" required></textarea>
+            </div>
+            <!-- Date -->
+             <div class="form-group inline">
+                 <label for="event-date">Event Date*:</label> <!-- Changed label, use DATEONLY -->
+                 <input type="date" id="event-date" required> <!-- Changed type to date -->
+             </div>
+             <!-- Time (Optional) -->
+             <div class="form-group inline">
+                 <label for="event-time">Time (e.g., 10:00 AM):</label>
+                 <input type="text" id="event-time" placeholder="Optional">
+             </div>
+            <!-- Mode -->
+             <div class="form-group inline">
+                <label for="event-mode">Mode*:</label>
+                <select id="event-mode" required>
+                    <option value="" disabled selected>Select Mode</option>
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                </select>
+            </div>
+            <!-- Location (Conditional) -->
+            <div class="form-group inline" id="location-group" style="display: none;">
+                <label for="location">Location (if Offline)*:</label>
+                <input type="text" id="location" name="location">
+            </div>
+            <!-- Category -->
+             <div class="form-group inline">
+                <label for="event-category">Category*:</label>
+                 <select id="event-category" required>
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Non-Technical">Non-Technical</option>
+                </select>
+            </div>
+            <!-- Type -->
+            <div class="form-group inline">
+                <label for="event-type">Type*:</label>
+                <select id="event-type" required>
+                    <option value="" disabled selected>Select Type</option> <!-- Default empty value -->
+                   <option value="College">College</option>
+                   <option value="Non-College">Non-College</option>
+               </select>
+           </div>
+            <!-- Image URL -->
+            <div class="form-group">
+                <label for="event-imageUrl">Image URL:</label>
+                <input type="url" id="event-imageUrl" placeholder="https://example.com/image.jpg">
+                <small>Optional. A default image will be used if blank.</small>
+            </div>
+             <!-- Registration/Details URL -->
+             <div class="form-group">
+                <label for="event-detailsUrl">Official Event/Registration URL:</label>
+                <input type="url" id="event-detailsUrl" placeholder="https://example.com/event-page">
+                <small>Optional. Link for users to register or get more info.</small>
+            </div>
+            <!-- Organizer Name -->
+             <div class="form-group">
+                <label for="event-organizerName">Organizer Name*:</label>
+                <input type="text" id="event-organizerName" required>
+            </div>
+            <!-- Organizer Contact -->
+            <div class="form-group">
+                <label for="event-organizerContact">Organizer Contact (Email/Website):</label>
+                <input type="text" id="event-organizerContact" placeholder="Optional">
+            </div>
+
+            <!-- *** ADDED Registration Fee Field *** -->
+            <div class="form-group inline">
+                <label for="event-fee">Registration Fee (USD):</label>
+                <input type="number" id="event-fee" name="registrationFee" min="0" step="0.01" placeholder="0.00 for Free">
+            </div>
+             <!-- *** END Added Field *** -->
+
+             <!-- Optional: Add Textarea for 'details' field -->
+            <!--
+            <div class="form-group">
+                <label for="event-extra-details">Additional Details (Rules, Prizes, etc.):</label>
+                <textarea id="event-extra-details" rows="4" placeholder="Optional"></textarea>
+            </div>
+            -->
+
+             <!-- Optional: Add Checkbox for 'isFeatured' field -->
+             <!--
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="event-isFeatured" name="isFeatured"> Mark as Featured Event
+                </label>
+            </div>
+             -->
+
+
+            <button type="submit">Submit Event</button>
+            <p id="organize-message" class="message" style="display: none;"></p>
+        </form>
+    </main>
+
+    <footer>
+        <p>© 2024 CampusEvents</p>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/events.js"></script>
+    <!-- Keep the inline script for location toggle -->
+    <script>
+        const modeSelect = document.getElementById('event-mode');
+        const locationGroup = document.getElementById('location-group');
+        const locationInput = document.getElementById('location');
+
+        function toggleLocationField() {
+            if (!modeSelect || !locationGroup || !locationInput) return; // Element check
+            if (modeSelect.value === 'Offline') {
+                locationGroup.style.display = 'inline-block'; // Or 'block' if not inline
+                locationInput.required = true;
+            } else {
+                locationGroup.style.display = 'none';
+                locationInput.required = false;
+                locationInput.value = ''; // Clear value when hiding
+            }
+        }
+        if (modeSelect) {
+            modeSelect.addEventListener('change', toggleLocationField);
+            toggleLocationField(); // Initial check
+        }
+    </script>
+</body>
+</html>

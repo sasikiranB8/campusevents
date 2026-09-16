@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title> <!-- Title updated by JS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Style for back button */
+        .back-button {
+            margin-bottom: 1.5rem;
+            background: #6c757d;
+            border-color: #6c757d;
+        }
+        .back-button:hover {
+             background: #5a6268;
+            border-color: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <!-- *** ADDED Standard Header *** -->
+    <header>
+        <nav>
+             <div class="logo"><a href="index.html">CampusEvents</a></div>
+             <ul>
+                 <li><a href="index.html">Home</a></li>
+                 <li><a href="events.html">Events</a></li>
+                 <li><a href="dashboard.html" id="nav-dashboard-link" style="display: none;">Dashboard</a></li>
+                 <li><a href="organize.html" id="nav-organize-link" style="display: none;">Organize</a></li>
+             </ul>
+             <div class="user-actions">
+                  <span id="user-greeting"></span>
+                 <button id="logout-button" style="display: none;">Logout</button>
+             </div>
+        </nav>
+    </header>
+
+    <!-- Back button will be added here by JS -->
+    <main class="container event-details-container">
+        <div id="event-details-content">
+            <p>Loading event details...</p>
+        </div>
+    </main>
+
+     <footer>
+        <p>© 2024 CampusEvents</p>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <!-- IMPORTANT: main.js needed for header/auth logic -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/events.js"></script>
+
+</body>
+</html>
