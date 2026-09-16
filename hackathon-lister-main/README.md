@@ -526,12 +526,8 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 <div align="center">
 
-**Built with 🔥 by [Renukesh DurgaPrasad](https://github.com/Renukeshpragada),[Madem hemanth](https://github.com/Hemanth2131)**
+**Built with 🔥 by [Renukesh DurgaPrasad](https://github.com/Renukeshpragada),[Sasi kiran]([https://github.com/Hemanth2131](https://github.com/sasikiranB8))**
 
-*Computer Science student | Full-Stack Developer | Open Source Enthusiast*
-
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Renukeshpragada)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/renukesh-durgaprasad-pragada/)
 </div>
 
 ---
